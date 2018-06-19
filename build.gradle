@@ -1,0 +1,51 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+}
+
+plugins {
+    id 'java-library'
+    id "com.jfrog.bintray" version "1.7.3"
+    id "maven-publish"
+}
+
+apply plugin: 'maven'
+
+allprojects {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    group = 'org.logback-websocket-streaming'
+    version = '1.0.0'
+}
+
+test {
+
+    // Use TestNG for unit tests
+    useTestNG()
+}
+
+
+dependencies {
+    api group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+
+    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.1.+'
+
+    implementation group: 'io.undertow', name: 'undertow-core', version: '2.0.9.Final'
+
+    implementation group: 'io.undertow', name: 'undertow-websockets-jsr', version: '2.0.9.Final'
+
+    testImplementation 'org.testng:testng:6.10'
+
+    testImplementation  group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.11'
+
+    testImplementation 'com.squareup.okhttp3:okhttp:3.10.0'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+apply from:'publish.gradle'

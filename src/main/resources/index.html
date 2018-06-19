@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Log Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font: 13px Helvetica, Arial;
+    }
+
+    .fixed-action-btn {
+      position: fixed;
+      z-index: 998;
+    }
+
+    #messages {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #messages li {
+      padding: 5px 10px;
+    }
+
+    #messages li:nth-child(odd) {
+      background: #eee;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="clear-btn" class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+  <a class="btn-floating btn-large waves-effect waves-light red">
+    <i class="material-icons">delete</i>
+  </a>
+
+</div>
+<ul id="messages"></ul>
+<script>
+    var wsUri = "ws://" + window.location.host + "/ws";
+    var ws = new WebSocket(wsUri);
+    var messageContainer = document.getElementById("messages");
+    ws.onmessage = function (event) {
+      var messageElement = document.createElement("li");
+      messageElement.innerHTML = event.data;
+      messageContainer.appendChild(messageElement);
+    };
+    $("#clear-btn").click(function() {
+      $('#messages').empty();
+    });
+</script>
+
+</body>
+
+</html>

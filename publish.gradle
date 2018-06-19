@@ -1,0 +1,79 @@
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+javadoc.failOnError = false
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "raymonddu"
+            name "raymonddu"
+            email "raymond.du.852@gmail.com"
+        }
+    }
+
+    scm {
+        url "https://github.com/raymond852/logback-websocket-streaming"
+    }
+}
+
+publishing {
+    publications {
+        mavenPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar {
+                classifier "sources"
+            }
+            artifact javadocJar {
+                classifier "javadoc"
+            }
+            groupId 'org.logback-websocket-streaming'
+            artifactId 'logback-websocket-streaming'
+            version '1.0.0'
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'logback appender which starts a websocket server for log streaming')
+                root.appendNode('name', 'logback-websocket-streaming')
+                root.appendNode('url', 'https://github.com/raymond852/logback-websocket-streaming')
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+bintray {
+    user = System.getProperty('bintray.user')
+    key = System.getProperty('bintray.key')
+    publications = ['mavenPublication']
+
+    pkg {
+        repo = 'logback-websocket-streaming'
+        name = 'logback-websocket-streaming'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/raymond852/logback-websocket-streaming.git'
+        version {
+            name = '1.0.0'
+            desc = '1.0.0'
+            released  = new Date()
+        }
+    }
+}

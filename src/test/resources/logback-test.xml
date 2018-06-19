@@ -1,0 +1,11 @@
+<configuration>
+
+  <appender name="WEBSOCKET" class="org.logback.plugin.websocketstreaming.WebSocketServerAppender">
+    <port>3450</port>
+    <layout class="ch.qos.logback.core.layout.EchoLayout"/>
+  </appender>
+
+  <root level="DEBUG">
+    <appender-ref ref="WEBSOCKET" />
+  </root>
+</configuration>
