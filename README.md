@@ -5,9 +5,7 @@ A logback appender which starts up a websocket server for log streaming
 Add dependency to your build gradle
 ```
 repositories {
-  maven {
-    url  "https://dl.bintray.com/raymond852/logback-websocket-streaming"
-  }
+    jcenter();
 }
 
 dependencies {
@@ -29,4 +27,4 @@ logback.xml
     </root>
 </configuration>    
 ```
-open browser and navigate to `http://targethost:7777/`
+open browser and navigate to `http://localhost:7777/`
